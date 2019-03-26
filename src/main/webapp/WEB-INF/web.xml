@@ -1,0 +1,41 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         id="WebApp_ID" version="3.1">
+
+    <!-- web.xml中的servlet、filter、listener、context-param加载顺序 -->
+
+    <!-- 配置ContextLoaderListener监听器加载spring父容器 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/applicationContext-*.xml</param-value>
+    </context-param>
+    <!-- 监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <!-- 配置前端控制器加载spring子容器 -->
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 设置spring配置文件路径 -->
+        <!-- 如果不设置，会读取默认路径配置文件 默认路径:/WEB-INF/springmvc-servlet.xml -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/springmvc.xml</param-value>
+        </init-param>
+        <!-- 指定初始化时机,设置为2，表示Tomcat启动时，跟随启动-->
+        <!-- 不指定则第一次请求时才被创建-->
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <!-- URL-PATTERN的设置-->
+        <!-- 不要配成/*-->
+        <!-- /*会拦截整个项目的资源访问，包含jsp和静态资源访问，对于静态资源springMVC提供了默认处理器Handler，但jsp没有提供，我们也没有手动编写-->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+</web-app>
