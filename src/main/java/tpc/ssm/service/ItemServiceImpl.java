@@ -26,4 +26,9 @@ public class ItemServiceImpl implements ItemService {
     public Item queryItemById(Integer id) {
         return id == null ? null : itemMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public void updateItem(Item item) {
+        itemMapper.updateByPrimaryKeySelective(item);
+    }
 }

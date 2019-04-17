@@ -11,6 +11,8 @@ public class Item {
 
     private Date createtime;
 
+    private String pic;
+
     private String detail;
 
     public Integer getId() {
@@ -43,6 +45,14 @@ public class Item {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic == null ? null : pic.trim();
     }
 
     public String getDetail() {

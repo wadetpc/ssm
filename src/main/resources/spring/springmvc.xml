@@ -18,10 +18,30 @@
 
     <context:component-scan base-package="tpc.ssm.controller"/>
     <!-- 配置注解的适配器和映射器，同事还注入了很多其他的bean-->
-    <mvc:annotation-driven />
+    <!-- 处理器适配器调用conversion-service -->
+    <mvc:annotation-driven conversion-service="conversionService"/>
     <!-- 显示的配置视图解析器-->
-    <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"></property>
-        <property name="suffix" value=".jsp"></property>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <!-- 自定义时间类型转换器-->
+                <bean class="tpc.ssm.controller.converter.DateConverter"/>
+            </set>
+        </property>
+    </bean>
+    <bean class="tpc.ssm.exception.CustormExceptionResolver"/>
+    <!-- 配置多部件解析组件-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 限制上传文件大小 单位是byte-->
+        <property name="maxUploadSize" value="5242880000000"/>
+    </bean>
+
+    <!-- 配置静态资源处理器-->
+    <!--本地资源路径 -->
+    <!--网络资源路径 -->
+    <mvc:resources mapping="/img/**" location="/img/"/>
 </beans>
